@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMBG - Lacak Permohonan Anda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0091EA;
+            --primary-dark: #0277BD;
+            --yellow: #FFC107;
+            --yellow-dark: #FFB300;
+            --success: #4CAF50;
+            --white: #FFFFFF;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #EEEEEE;
+            --gray-300: #E0E0E0;
+            --gray-400: #BDBDBD;
+            --gray-500: #9E9E9E;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #212121;
+            --table-header: #039BE5;
+            --row-alt: #F0F9FF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--gray-800);
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-text {
+            display: flex;
+            align-items: baseline;
+        }
+        .logo-sim {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--primary);
+        }
+        .logo-bg {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--yellow-dark);
+        }
+        .logo-subtitle {
+            font-size: 11px;
+            color: var(--gray-600);
+            line-height: 1.3;
+            margin-left: 10px;
+        }
+        .logo-subtitle span { display: block; }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--gray-700);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 20px 18px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .nav-menu a:hover { color: var(--primary); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-daftar {
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 16px;
+        }
+        .btn-masuk {
+            text-decoration: none;
+            color: var(--white);
+            background: var(--primary);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px 28px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .btn-masuk:hover { background: var(--primary-dark); }
+
+        /* ===== MAIN ===== */
+        .main-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+        .page-subtitle {
+            text-align: center;
+            font-size: 15px;
+            color: var(--gray-500);
+            margin-bottom: 36px;
+        }
+
+        /* Search */
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 64px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .search-box input {
+            width: 420px;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-family: inherit;
+            border: 2px solid var(--gray-300);
+            border-radius: 10px;
+            outline: none;
+            color: var(--gray-800);
+            transition: border-color 0.2s;
+        }
+        .search-box input:focus { border-color: var(--primary); }
+        .search-box input::placeholder { color: var(--gray-400); }
+        .search-box .btn-cek {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .search-box .btn-cek:hover { background: var(--primary-dark); }
+        .search-box .btn-cek:active { transform: scale(0.97); }
+
+        /* ===== STEPPER ===== */
+        .stepper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            margin-bottom: 48px;
+            padding: 0 20px;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+            max-width: 200px;
+        }
+        .step-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            z-index: 2;
+        }
+        .step-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--white);
+        }
+        .step-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gray-700);
+            text-align: center;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: calc(50% + 18px);
+            right: calc(-50% + 18px);
+            height: 3px;
+            background: var(--primary);
+            z-index: 1;
+        }
+
+        /* ===== TABLE ===== */
+        .data-table-wrapper {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        .data-table thead th {
+            background: var(--table-header);
+            color: var(--white);
+            padding: 16px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .data-table thead th:first-child {
+            border-radius: 10px 0 0 0;
+            width: 60px;
+        }
+        .data-table thead th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+        .data-table tbody tr {
+            border-bottom: 1px solid var(--gray-200);
+            transition: background 0.15s;
+        }
+        .data-table tbody tr:nth-child(even) {
+            background: var(--row-alt);
+        }
+        .data-table tbody tr:hover {
+            background: #E3F2FD;
+        }
+        .data-table tbody td {
+            padding: 16px 18px;
+            font-size: 14px;
+            color: var(--gray-800);
+            vertical-align: top;
+        }
+        .data-table tbody td:first-child {
+            font-weight: 600;
+            text-align: center;
+            color: var(--gray-600);
+        }
+        .pemroses-name {
+            font-weight: 700;
+            color: var(--gray-900);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .pemroses-phone {
+            font-size: 13px;
+            color: var(--primary);
+            display: block;
+        }
+        .pemroses-email {
+            font-size: 13px;
+            color: var(--gray-500);
+            display: block;
+        }
+
+        /* ===== FLOATING WIDGET ===== */
+        .floating-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .floating-widget:hover { transform: scale(1.05); }
+        .floating-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF6F00, #FFA000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: -8px;
+            box-shadow: 0 4px 16px rgba(255,111,0,0.3);
+        }
+        .floating-avatar::before {
+            content: '👷';
+            font-size: 40px;
+        }
+        .floating-badge {
+            background: #D32F2F;
+            color: var(--white);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(211,47,47,0.3);
+            white-space: nowrap;
+        }
+        .floating-badge svg { width: 14px; height: 14px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .header { padding: 0 16px; }
+            .nav-menu { display: none; }
+            .main-content { padding: 32px 16px 80px; }
+            .page-title { font-size: 24px; }
+            .search-box { flex-direction: column; width: 100%; }
+            .search-box input { width: 100%; }
+            .search-box .btn-cek { width: 100%; }
+            .stepper { flex-wrap: wrap; gap: 16px; }
+            .step:not(:last-child)::after { display: none; }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1E293B;
+            color: rgba(255,255,255,0.8);
+            padding: 48px 24px 0;
+            text-align: center;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 4px;
+        }
+        .footer-logo .f-sim {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--white);
+        }
+        .footer-logo .f-bg {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--yellow-dark);
+        }
+        .footer-logo-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            margin-left: 10px;
+            text-align: left;
+            line-height: 1.3;
+        }
+        .footer-logo-sub span { display: block; }
+        .footer-kementerian {
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+            margin-top: 12px;
+            margin-bottom: 32px;
+        }
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer-nav a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .footer-nav a:hover { color: var(--white); }
+        .footer-copy {
+            padding: 20px 0;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        @media print {
+            .header, .floating-widget, .footer { display: none; }
+            .main-content { padding-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-group">
+            <div class="logo-text">
+                <span class="logo-sim">SIM</span><span class="logo-bg">BG</span>
+            </div>
+            <div class="logo-subtitle">
+                <span>Sistem Informasi Manajemen</span>
+                <span>Bangunan Gedung</span>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="#">Beranda</a>
+            <a href="#">Layanan Kami ▾</a>
+            <a href="#">Petunjuk Teknis</a>
+            <a href="#">Desain Prototipe/Purwarupa</a>
+            <a href="#">Hubungi Kami</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="#" class="btn-daftar">Daftar</a>
+            <a href="#" class="btn-masuk">Masuk</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Lacak Permohonan Anda</h1>
+        <p class="page-subtitle">Gunakan nomor registrasi untuk melacak permohonan Anda</p>
+
+        <div class="search-wrapper">
+            <div class="search-box">
+                <input type="text" id="searchInput" value="320129-12092025-006" placeholder="Masukkan Nomor Registrasi...">
+                <button class="btn-cek" onclick="handleSearch()">Cek</button>
+            </div>
+        </div>
+
+        <!-- Stepper -->
+        <div class="stepper" id="stepper">
+            <div class="step">
+                <div class="step-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <span class="step-label">Pengajuan</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <span class="step-label">Verifikasi Bangunan</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <span class="step-label">Konsultasi</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <span class="step-label">Retribusi</span>
+            </div>
+            <div class="step">
+                <div class="step-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <span class="step-label">Selesai</span>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Status</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Tanggal Selesai</th>
+                        <th>Pemroses</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>SK PBG Terbit</td>
+                        <td>06 Januari 2026</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Pengambilan SK PBG</td>
+                        <td>05 Januari 2026</td>
+                        <td>06 Januari 2026</td>
+                        <td>
+                            <span class="pemroses-name">Anna Herdina</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">herdin*****@gmail.com</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Verifikasi SK PBG</td>
+                        <td>05 Januari 2026</td>
+                        <td>05 Januari 2026</td>
+                        <td>
+                            <span class="pemroses-name">A. AGUS RIDALLAH</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">agus.********@bogorkab.go.id</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Verifikasi Pembayaran Retribusi</td>
+                        <td>02 Januari 2026</td>
+                        <td>05 Januari 2026</td>
+                        <td>
+                            <span class="pemroses-name">Irsyad Surawirawan</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">irsya*************@yahoo.com</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Menunggu Pembayaran Retribusi</td>
+                        <td>31 Desember 2025</td>
+                        <td>02 Januari 2026</td>
+                        <td>
+                            <span class="pemroses-name">PT. Coliving Buana Urban</span>
+                            <span class="pemroses-phone">89666314520</span>
+                            <span class="pemroses-email">buana***************@gmail.com</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Proses Penerbitan SKRD</td>
+                        <td>16 Desember 2025</td>
+                        <td>31 Desember 2025</td>
+                        <td>
+                            <span class="pemroses-name">Anna Herdina</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">herdin*****@gmail.com</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Persetujuan Penerbitan</td>
+                        <td>10 Desember 2025</td>
+                        <td>16 Desember 2025</td>
+                        <td>
+                            <span class="pemroses-name">EKO MUJIARTO, S.H, M.H</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">eko.********@bogorkab.go.id</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Pemeriksaan Teknis</td>
+                        <td>15 November 2025</td>
+                        <td>10 Desember 2025</td>
+                        <td>
+                            <span class="pemroses-name">Tim Profesi Ahli (TPA)</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">tpa.****@bogorkab.go.id</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Verifikasi Dokumen</td>
+                        <td>20 Oktober 2025</td>
+                        <td>15 November 2025</td>
+                        <td>
+                            <span class="pemroses-name">Anna Herdina</span>
+                            <span class="pemroses-phone">0218751090</span>
+                            <span class="pemroses-email">herdin*****@gmail.com</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Pengajuan Permohonan</td>
+                        <td>12 September 2025</td>
+                        <td>20 Oktober 2025</td>
+                        <td>
+                            <span class="pemroses-name">PT. Coliving Buana Urban</span>
+                            <span class="pemroses-phone">89666314520</span>
+                            <span class="pemroses-email">buana***************@gmail.com</span>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">
+            <span class="f-sim">SIM</span><span class="f-bg">BG</span>
+            <div class="footer-logo-sub">
+                <span>Sistem Informasi Manajemen</span>
+                <span>Bangunan Gedung</span>
+            </div>
+        </div>
+        <p class="footer-kementerian">Kementerian Pekerjaan Umum Republik Indonesia</p>
+        <nav class="footer-nav">
+            <a href="#">Beranda</a>
+            <a href="#">Lacak Permohonan</a>
+            <a href="#">Kalkulator Retribusi</a>
+            <a href="#">F.A.Q</a>
+            <a href="#">Pengumuman</a>
+            <a href="#">Informasi</a>
+            <a href="#">Hubungi Kami</a>
+            <a href="#">Juknis</a>
+            <a href="#">Desain Prototipe/Purwarupa</a>
+        </nav>
+        <p class="footer-copy">© 2024 Kementerian Pekerjaan Umum Republik Indonesia</p>
+    </footer>
+
+    <!-- Floating Lapor Bang -->
+    <div class="floating-widget" title="Lapor Bang">
+        <div class="floating-avatar"></div>
+        <div class="floating-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            Lapor Bang
+        </div>
+    </div>
+
+    <script>
+        function handleSearch() {
+            const input = document.getElementById('searchInput').value.trim();
+            if (!input) {
+                alert('Silakan masukkan nomor registrasi.');
+                return;
+            }
+            document.getElementById('stepper').scrollIntoView({ behavior: 'smooth' });
+        }
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') handleSearch();
+        });
+    </script>
+</body>
+</html>
